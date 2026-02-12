@@ -15,7 +15,7 @@
   ### ⚡ Save 200+ hours of architectural setup. 
   **The ultimate production-ready boilerplate for Java Developers.**
   
-  <a href="https://zukovlabs.lemonsqueezy.com/checkout/buy/528fe1f3-337e-472b-9fb5-40088bff5697">
+  <a href="https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058">
     <img src="https://img.shields.io/badge/Get%20Source%20Code-Access%20Private%20Repo-blue?style=for-the-badge&logo=rocket&height=40" height="50" />
   </a>
 
@@ -143,7 +143,7 @@ These terms are governed by the laws of **Latvia**.
 <div align="center">
   <h3>Ready to start building?</h3>
   <p>Get instant access to the private repository.</p>
-  <a href="https://zukovlabs.lemonsqueezy.com/checkout/buy/528fe1f3-337e-472b-9fb5-40088bff5697">
+  <a href="https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058">
     <img src="https://img.shields.io/badge/Buy%20License%20Now-Unlock%20Repo-success?style=for-the-badge&logo=github" height="50" />
   </a>
 </div>
