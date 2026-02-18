@@ -21,6 +21,13 @@
 
 </div>
 
+<div align="center">
+  <h3>🎥 Live Demo Walkthrough</h3>
+  <video src="https://github.com/user-attachments/assets/e140615e-cd26-4593-8d50-196c14ccfbd3" controls="controls" style="max-width: 100%;">
+  </video>
+</div>
+
+
 <br><br>
 
 <img src="assets/landing-top.png" alt="Enterprise SaaS Starter Kit" width="100%" style="border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.1);"/>
