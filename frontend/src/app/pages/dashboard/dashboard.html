@@ -1,0 +1,38 @@
+<div class="content-padding">
+  <h2>Dashboard Overview</h2>
+
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading your dashboard...</p>
+    </div>
+  } @else {
+    <div class="stats-grid">
+      <mat-card class="stat-card total">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>group</mat-icon>
+          <mat-card-title>Total Customers</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-value">
+            {{ stats?.totalCustomers ?? '...' }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card active">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>verified</mat-icon>
+          <mat-card-title>Active Users</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-value">
+            {{ stats?.activeCustomers ?? '...' }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+
+  <p style="margin-top: 40px; color: gray;">Here is your open-source analytics overview.</p>
+</div>

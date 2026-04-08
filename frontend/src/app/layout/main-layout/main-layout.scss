@@ -1,0 +1,26 @@
+.dashboard-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+  background: #f8f9fa;
+  border-right: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
+  color: #3f51b5;
+  border-bottom: 1px solid #ddd;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content-padding {
+  padding: 20px;
+}

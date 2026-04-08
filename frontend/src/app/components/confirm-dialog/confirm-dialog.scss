@@ -1,0 +1,11 @@
+.dialog-message {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin-top: 10px;
+}
+
+button.mat-warn, button[color="warn"] {
+  background-color: #d32f2f !important;
+  color: white !important;
+}
