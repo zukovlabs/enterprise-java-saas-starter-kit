@@ -7,8 +7,12 @@
 ![MSSQL](https://img.shields.io/badge/Database-MSSQL_2022-lightgrey.svg)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+[![Website](https://img.shields.io/badge/Website-zukovlabs.com-blue.svg)](https://zukovlabs.com)
 
 A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 21 frontend, MSSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
+
+> 🌐 **Full Features & Live Demo:** [zukovlabs.com](https://zukovlabs.com)  
+> ⭐ **Found this useful? Drop a star** — it helps other Java developers find this project.
 
 ---
 
@@ -63,7 +67,7 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 - **Quality Assurance:** 88 strict test cases, Mockito, Vitest: **~40 hours**
 - **Total: 200+ hours of deep engineering** — or one license purchase.
 
-### 👉 [Get the PRO Version →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
+### 👉 [Get PRO Version — €149 one-time →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
 
 ---
 
@@ -447,7 +451,7 @@ The Community Edition is intentionally minimal. The **PRO version** is what you 
 - Dashboard charts with Chart.js
 - 13 test files, 88 cases — Mockito strict stubs, Vitest frontend, `ArgumentCaptor` assertions
 
-### 👉 [Get the PRO Version →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
+### 👉 [See full details at zukovlabs.com →](https://zukovlabs.com)
 
 ---
 
