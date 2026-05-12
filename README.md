@@ -461,6 +461,15 @@ Contributions, bug reports, and feature requests are welcome. Open an issue or s
 
 ---
 
+## Support & Questions
+
+Have a question, found a bug, or need help?
+
+* **Technical issues:** Please [open a GitHub Issue](https://github.com/zukovlabs/enterprise-java-saas-starter-kit/issues)
+* **Business or private inquiries:** Drop me an email at [support@zukovlabs.com](mailto:romanzukov1983@gmail.com)
+
+---
+
 ## License
 
 This project is licensed under the **MIT License** — free to use, modify, and distribute. See [LICENSE](./LICENSE) for details.
