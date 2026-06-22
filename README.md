@@ -3,13 +3,15 @@
 ![Version](https://img.shields.io/badge/version-1.0.0--community-blue.svg)
 ![Java](https://img.shields.io/badge/Java-21-orange.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-green.svg)
-![Angular](https://img.shields.io/badge/Angular-21-red.svg)
+![Angular](https://img.shields.io/badge/Angular-22-red.svg)
 ![MSSQL](https://img.shields.io/badge/Database-MSSQL_2022-lightgrey.svg)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 [![Website](https://img.shields.io/badge/Website-zukovlabs.com-blue.svg)](https://zukovlabs.com)
 
-A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 21 frontend, MSSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
+A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 22 frontend, MSSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
+
+> 🚀 **Latest Update:** The frontend has been fully migrated to **Angular 22** (Previously supported **Angular 21**).
 
 > 🌐 **Full Features & Live Demo:** [zukovlabs.com](https://zukovlabs.com)  
 > ⭐ **Found this useful? Drop a star** — it helps other Java developers find this project.
@@ -73,40 +75,40 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 
 ## Free vs. PRO Comparison
 
-| Feature                                         | Community (Free) | PRO |
-|-------------------------------------------------|:---:|:---:|
-| **Java 21 + Spring Boot 3.4.1**                 | ✅ | ✅ |
-| **Angular 21 Standalone Components**            | ✅ | ✅ |
-| **MSSQL 2022 + Flyway Migrations**              | ✅ | ✅ |
-| **Multi-stage Docker Builds**                   | ✅ | ✅ |
-| **Nginx SPA Hosting + Security Headers**        | ✅ | ✅ |
-| **MSSQL Healthcheck (no startup race)**         | ✅ | ✅ |
-| **JWT Auth (Access + Refresh Tokens)**          | ✅ Basic | ✅ Enhanced |
-| **Refresh Token Rotation**                      | ✅ | ✅ |
-| **BCrypt Password Hashing**                     | ✅ | ✅ |
-| **User Profile Management**                     | ✅ | ✅ |
-| **Basic Customer CRUD**                         | ✅ | ✅ |
-| **Dashboard Stats API**                         | ✅ | ✅ |
-| **Angular Material UI**                         | ✅ | ✅ |
-| **401 Race Condition Protection (Interceptor)** | ✅ | ✅ |
-| **Auth Guard (JWT `exp` validation + redirect)** | ✅ | ✅ |
-| —                                               | — | — |
-| **Stripe Checkout + Webhook Handling**          | ❌ | ✅ |
-| **Stripe Billing Portal (self-service)**        | ❌ | ✅ |
-| **Magic Link (Passwordless Auth)**              | ❌ | ✅ |
-| **Post-Payment Auto-Login via Magic Link**      | ❌ | ✅ |
-| **Email Service (Thymeleaf HTML templates)**    | ❌ | ✅ |
-| **IP Rate Limiting (brute-force protection)**   | ❌ | ✅ |
-| **Server-Side Pagination (Spring `Pageable` backend + `MatPaginator`)**  | ❌ | ✅ |
-| **Strict RBAC (ADMIN / MANAGER / USER)**        | ❌ | ✅ |
-| **Entity Ownership Enforcement (403)**          | ❌ | ✅ |
-| **Signal Cache (no duplicate HTTP calls)**      | ❌ | ✅ |
-| **Dashboard Charts (Chart.js)**                 | ❌ | ✅ |
-| **13 Test Files / 88 Test Cases**               | ❌ | ✅ |
-| **Mockito Strict Stubs + ArgumentCaptor**       | ❌ | ✅ |
-| **Vitest Frontend Test Suite**                  | ❌ | ✅ |
-| **Fail-Fast JWT Secret Validation**             | ❌ | ✅ |
-| **Commercial Use License**                      | ✅ MIT | ✅ Commercial |
+| Feature                                                                 | Community (Free) | PRO |
+|-------------------------------------------------------------------------|:---:|:---:|
+| **Java 21 + Spring Boot 3.4.1**                                         | ✅ | ✅ |
+| **Angular 22 Standalone Components**                                    | ✅ | ✅ |
+| **MSSQL 2022 + Flyway Migrations**                                      | ✅ | ✅ |
+| **Multi-stage Docker Builds**                                           | ✅ | ✅ |
+| **Nginx SPA Hosting + Security Headers**                                | ✅ | ✅ |
+| **MSSQL Healthcheck (no startup race)**                                 | ✅ | ✅ |
+| **JWT Auth (Access + Refresh Tokens)**                                  | ✅ Basic | ✅ Enhanced |
+| **Refresh Token Rotation**                                              | ✅ | ✅ |
+| **BCrypt Password Hashing**                                             | ✅ | ✅ |
+| **User Profile Management**                                             | ✅ | ✅ |
+| **Basic Customer CRUD**                                                 | ✅ | ✅ |
+| **Dashboard Stats API**                                                 | ✅ | ✅ |
+| **Angular Material UI**                                                 | ✅ | ✅ |
+| **401 Race Condition Protection (Interceptor)**                         | ✅ | ✅ |
+| **Auth Guard (JWT `exp` validation + redirect)**                        | ✅ | ✅ |
+| —                                                                       | — | — |
+| **Stripe Checkout + Webhook Handling**                                  | ❌ | ✅ |
+| **Stripe Billing Portal (self-service)**                                | ❌ | ✅ |
+| **Magic Link (Passwordless Auth)**                                      | ❌ | ✅ |
+| **Post-Payment Auto-Login via Magic Link**                              | ❌ | ✅ |
+| **Email Service (Thymeleaf HTML templates)**                            | ❌ | ✅ |
+| **IP Rate Limiting (brute-force protection)**                           | ❌ | ✅ |
+| **Server-Side Pagination (Spring `Pageable` backend + `MatPaginator`)** | ❌ | ✅ |
+| **Strict RBAC (ADMIN / MANAGER / USER)**                                | ❌ | ✅ |
+| **Entity Ownership Enforcement (403)**                                  | ❌ | ✅ |
+| **Signal Cache (no duplicate HTTP calls)**                              | ❌ | ✅ |
+| **Dashboard Charts (Chart.js)**                                         | ❌ | ✅ |
+| **13 Test Files / 88 Test Cases**                                       | ❌ | ✅ |
+| **Mockito Strict Stubs + ArgumentCaptor**                               | ❌ | ✅ |
+| **Vitest Frontend Test Suite**                                          | ❌ | ✅ |
+| **Fail-Fast JWT Secret Validation**                                     | ❌ | ✅ |
+| **Commercial Use License**                                              | ✅ MIT | ✅ Commercial |
 
 ### 👉 [Upgrade to PRO →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
 
@@ -151,21 +153,21 @@ Request → JwtAuthenticationFilter → SecurityConfig rules → Controller → 
 
 ## Tech Stack
 
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| **Language** | Java | 21 LTS |
-| **Framework** | Spring Boot | 3.4.1 |
-| **Security** | Spring Security | 6.x |
-| **ORM** | Hibernate / JPA | — |
-| **JWT** | JJWT | 0.12.3 (HS512) |
-| **Migrations** | Flyway | — |
-| **Build Tool** | Maven | 3.9.6 |
-| **Frontend** | Angular | 21 (Standalone) |
-| **UI Library** | Angular Material | 21 |
-| **Reactive** | RxJS | 7.8 |
-| **Database** | MSSQL Server | 2022 |
-| **Containerization** | Docker + Compose | — |
-| **Web Server** | Nginx | Alpine |
+| Component | Technology | Version         |
+|-----------|-----------|-----------------|
+| **Language** | Java | 21 LTS          |
+| **Framework** | Spring Boot | 3.4.1           |
+| **Security** | Spring Security | 6.x             |
+| **ORM** | Hibernate / JPA | —               |
+| **JWT** | JJWT | 0.12.3 (HS512)  |
+| **Migrations** | Flyway | —               |
+| **Build Tool** | Maven | 3.9.6           |
+| **Frontend** | Angular | 22 (Standalone) |
+| **UI Library** | Angular Material | 22              |
+| **Reactive** | RxJS | 7.8             |
+| **Database** | MSSQL Server | 2022            |
+| **Containerization** | Docker + Compose | —               |
+| **Web Server** | Nginx | Alpine          |
 
 ---
 
@@ -174,10 +176,10 @@ Request → JwtAuthenticationFilter → SecurityConfig rules → Controller → 
 Install these before you start:
 
 | Tool | Purpose | Min Version |
-|------|---------|------------|
-| **Docker Desktop** | Run the full stack | Latest |
-| **Java 21 JDK** | Local backend development | 21 LTS |
-| **Node.js** | Local frontend development | 20+ |
+|------|---------|-------------|
+| **Docker Desktop** | Run the full stack | Latest      |
+| **Java 21 JDK** | Local backend development | 21 LTS      |
+| **Node.js** | Local frontend development | 22+         |
 
 ---
 
@@ -425,7 +427,7 @@ enterprise-saas-starter-core/
 │   │   └── auth.interceptor.ts         # Injects Bearer token + handles 401 with token refresh
 │   │
 │   ├── nginx.conf                      # SPA routing, /api reverse proxy, gzip, security headers
-│   └── Dockerfile                      # Multi-stage: Node 20 → Nginx Alpine
+│   └── Dockerfile                      # Multi-stage: Node 24 → Nginx Alpine
 │
 ├── Dockerfile                          # Multi-stage: Maven 3.9.6 + JDK 21 → JRE 21 Alpine
 ├── compose.yaml                        # DB (healthcheck) → Backend → Frontend
