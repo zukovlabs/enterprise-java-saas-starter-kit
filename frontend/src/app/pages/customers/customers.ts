@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit, inject} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, inject, ChangeDetectionStrategy} from '@angular/core';
 import { Customer } from '../../models/customer';
 import { CustomerService } from '../../services/customer.service';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -22,6 +22,7 @@ import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
     MatDialogModule,
     MatSnackBarModule],
   templateUrl: './customers.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './customers.scss'
 })
 export class Customers implements OnInit, AfterViewInit {

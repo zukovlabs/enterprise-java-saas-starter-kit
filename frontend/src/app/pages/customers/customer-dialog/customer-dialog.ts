@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
     MatButtonModule
   ],
   templateUrl: './customer-dialog.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './customer-dialog.scss'
 })
 export class CustomerDialog {
