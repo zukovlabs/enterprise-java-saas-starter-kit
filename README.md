@@ -69,7 +69,7 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 - **Quality Assurance:** 88 strict test cases, Mockito, Vitest: **~40 hours**
 - **Total: 200+ hours of deep engineering** — or one license purchase.
 
-### 👉 [Get PRO Version — €149 one-time →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
+### 👉 [Get PRO Version — €149 (Use code ANGULAR22 at checkout for €50 off!) →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
 
 ---
 
@@ -110,7 +110,7 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 | **Fail-Fast JWT Secret Validation**                                     | ❌ | ✅ |
 | **Commercial Use License**                                              | ✅ MIT | ✅ Commercial |
 
-### 👉 [Upgrade to PRO →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
+### 👉 [Upgrade to PRO (Use code ANGULAR22 at checkout for €50 off!) →](https://zukovlabs.lemonsqueezy.com/checkout/buy/0dbe2f00-c90f-414b-b2d1-4e589f487058)
 
 ---
 
