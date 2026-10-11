@@ -1,18 +1,19 @@
 services:
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:17-alpine
     container_name: saas_db
     env_file:
       - .env
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=saas_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - mssql_data:/var/opt/mssql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${DB_PASSWORD}\" -C -Q 'SELECT 1' || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d saas_db || exit 1"]
       interval: 10s
       retries: 10
       start_period: 20s
@@ -26,7 +27,7 @@ services:
     env_file:
       - .env
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:sqlserver://db:1433;databaseName=master;encrypt=true;trustServerCertificate=true
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/saas_db
     depends_on:
       db:
         condition: service_healthy
@@ -42,4 +43,4 @@ services:
     restart: on-failure
 
 volumes:
-  mssql_data:
+  postgres_data:
