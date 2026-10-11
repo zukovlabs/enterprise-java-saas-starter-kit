@@ -11,7 +11,7 @@
 
 A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 22 frontend, PostgreSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
 
-> 🚀 **Latest Update:** The frontend has been fully migrated to **Angular 22** (Previously supported **Angular 21**).
+> 🚀 **Latest Update:** The database has been migrated to **PostgreSQL 17** (Previously **MSSQL 2022**).
 
 > 🌐 **Full Features & Live Demo:** [zukovlabs.com](https://zukovlabs.com)  
 > ⭐ **Found this useful? Drop a star** — it helps other Java developers find this project.
