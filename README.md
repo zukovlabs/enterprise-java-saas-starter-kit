@@ -4,12 +4,12 @@
 ![Java](https://img.shields.io/badge/Java-21-orange.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-green.svg)
 ![Angular](https://img.shields.io/badge/Angular-22-red.svg)
-![MSSQL](https://img.shields.io/badge/Database-MSSQL_2022-lightgrey.svg)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL_17-336791.svg)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 [![Website](https://img.shields.io/badge/Website-zukovlabs.com-blue.svg)](https://zukovlabs.com)
 
-A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 22 frontend, MSSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
+A **production-ready fullstack boilerplate** for building SaaS applications — Java 21 + Spring Boot 3.4.1 backend, Angular 22 frontend, PostgreSQL database, fully containerized with Docker Compose. Clone, configure, and ship.
 
 > 🚀 **Latest Update:** The frontend has been fully migrated to **Angular 22** (Previously supported **Angular 21**).
 
@@ -79,10 +79,10 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 |-------------------------------------------------------------------------|:---:|:---:|
 | **Java 21 + Spring Boot 3.4.1**                                         | ✅ | ✅ |
 | **Angular 22 Standalone Components**                                    | ✅ | ✅ |
-| **MSSQL 2022 + Flyway Migrations**                                      | ✅ | ✅ |
+| **Database + Flyway Migrations**                                        | ✅ PostgreSQL 17 | ✅ MSSQL 2022 |
 | **Multi-stage Docker Builds**                                           | ✅ | ✅ |
 | **Nginx SPA Hosting + Security Headers**                                | ✅ | ✅ |
-| **MSSQL Healthcheck (no startup race)**                                 | ✅ | ✅ |
+| **Database Healthcheck (no startup race)**                              | ✅ | ✅ |
 | **JWT Auth (Access + Refresh Tokens)**                                  | ✅ Basic | ✅ Enhanced |
 | **Refresh Token Rotation**                                              | ✅ | ✅ |
 | **BCrypt Password Hashing**                                             | ✅ | ✅ |
@@ -133,8 +133,8 @@ The Community Edition is a clean, runnable fullstack starting point — no toy d
 │                   Docker Compose                   │
 │                                                    │
 │  ┌──────────┐    ┌───────────────┐    ┌─────────┐  │
-│  │  MSSQL   │───▶│  Spring Boot  │◀───│  Nginx  │  │
-│  │  :1433   │    │    :8080      │    │  :8081  │  │
+│  │ Postgres │───▶│  Spring Boot  │◀───│  Nginx  │  │
+│  │  :5432   │    │    :8080      │    │  :8081  │  │
 │  └──────────┘    └───────────────┘    └────┬────┘  │
 │   healthcheck      Flyway migrations        │       │
 │   passes first     on startup           Angular SPA │
@@ -165,7 +165,7 @@ Request → JwtAuthenticationFilter → SecurityConfig rules → Controller → 
 | **Frontend** | Angular | 22 (Standalone) |
 | **UI Library** | Angular Material | 22              |
 | **Reactive** | RxJS | 7.8             |
-| **Database** | MSSQL Server | 2022            |
+| **Database** | PostgreSQL | 17              |
 | **Containerization** | Docker + Compose | —               |
 | **Web Server** | Nginx | Alpine          |
 
@@ -218,7 +218,7 @@ docker compose up -d --build
 
 Docker Compose will:
 
-1. Start the MSSQL container and wait for the healthcheck to pass
+1. Start the PostgreSQL container and wait for the healthcheck to pass
 2. Start the Spring Boot backend — Flyway migrations run automatically on startup
 3. Start the Angular frontend served via Nginx
 
@@ -228,7 +228,7 @@ Docker Compose will:
 |---------|-----|
 | **Frontend** | http://localhost:8081 |
 | **Backend API** | http://localhost:8080 |
-| **Database** | `localhost:1433` |
+| **Database** | `localhost:5432` |
 
 ### 5. Log In with the Demo Accounts
 
@@ -278,7 +278,7 @@ All variables are sourced from the `.env` file (see `.env.example` for a full te
 | `JWT_SECRET` | ✅ | — | 256-bit hex string for HS512 signing |
 | `JWT_EXPIRATION_MS` | — | `86400000` (24h) | Access token TTL in milliseconds |
 | `JWT_REFRESH_EXPIRATION_MS` | — | `604800000` (7d) | Refresh token TTL in milliseconds |
-| `DB_PASSWORD` | ✅ | `StrongP@ssw0rd!` | MSSQL SA account password |
+| `DB_PASSWORD` | ✅ | `StrongP@ssw0rd!` | PostgreSQL `postgres` user password |
 | `CORS_ALLOWED_ORIGINS` | ✅ | `http://localhost:4200,http://localhost:8081,http://localhost` | Comma-separated allowed CORS origins |
 
 ---
@@ -297,10 +297,10 @@ Schema is managed by **Flyway** — migrations run automatically on every backen
 
 | Field | Value |
 |-------|-------|
-| Host | `localhost:1433` |
-| User | `sa` |
+| Host | `localhost:5432` |
+| User | `postgres` |
 | Password | `StrongP@ssw0rd!` (override via `DB_PASSWORD`) |
-| Database | `master` |
+| Database | `saas_db` |
 
 > **Note:** Demo accounts seeded by Flyway use `{noop}` plain-text passwords for developer convenience. All passwords created via `/api/auth/register` are BCrypt-encoded automatically.
 
