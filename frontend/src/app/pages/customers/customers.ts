@@ -1,13 +1,15 @@
 import {Component, OnInit, ViewChild, AfterViewInit, inject, ChangeDetectionStrategy} from '@angular/core';
-import { Customer } from '../../models/customer';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Customer, CustomerPayload } from '../../models/customer';
 import { CustomerService } from '../../services/customer.service';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CustomerDialog } from './customer-dialog/customer-dialog';
+import { CustomerDialog, CustomerDialogData } from './customer-dialog/customer-dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 
@@ -19,6 +21,7 @@ import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
     MatSortModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatDialogModule,
     MatSnackBarModule],
   templateUrl: './customers.html',
@@ -59,7 +62,9 @@ export class Customers implements OnInit, AfterViewInit {
   }
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(CustomerDialog);
+    const dialogRef = this.dialog.open<CustomerDialog, CustomerDialogData, CustomerPayload>(CustomerDialog, {
+      data: {}
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -68,9 +73,30 @@ export class Customers implements OnInit, AfterViewInit {
             this.loadCustomers();
             this.showSuccess('Customer created successfully');
           },
-          error: (err) => {
+          error: (err: HttpErrorResponse) => {
             console.error(err);
-            this.showError('Failed to create customer');
+            this.showError(this.problemDetail(err) ?? 'Failed to create customer');
+          }
+        });
+      }
+    });
+  }
+
+  openEditDialog(customer: Customer) {
+    const dialogRef = this.dialog.open<CustomerDialog, CustomerDialogData, CustomerPayload>(CustomerDialog, {
+      data: { customer }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.customerService.updateCustomer(customer.id, result).subscribe({
+          next: () => {
+            this.loadCustomers();
+            this.showSuccess('Customer updated successfully');
+          },
+          error: (err: HttpErrorResponse) => {
+            console.error(err);
+            this.showError(this.problemDetail(err) ?? 'Failed to update customer');
           }
         });
       }
@@ -95,13 +121,18 @@ export class Customers implements OnInit, AfterViewInit {
             this.loadCustomers();
             this.showSuccess('Customer deleted');
           },
-          error: (err) => {
+          error: (err: HttpErrorResponse) => {
             console.error(err);
-            this.showError('Failed to delete customer');
+            this.showError(this.problemDetail(err) ?? 'Failed to delete customer');
           }
         });
       }
     });
+  }
+
+  // Backend errors follow RFC 7807: { title, status, detail, errors? }
+  private problemDetail(err: HttpErrorResponse): string | undefined {
+    return err.error?.detail;
   }
 
   private showSuccess(message: string) {

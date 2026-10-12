@@ -58,7 +58,7 @@ export class Register {
       error: (err) => {
         console.error(err);
         console.error(err);
-        const errorMsg = err.error?.error || 'Registration failed. Please try again.';
+        const errorMsg = err.error?.detail || 'Registration failed. Please try again.';
         this.showError(errorMsg);
       }
     });

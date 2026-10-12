@@ -119,9 +119,10 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 The Community Edition is a clean, runnable fullstack starting point — no toy demo, no half-implemented code. It ships with:
 
 - **Stateless JWT authentication** with access and refresh token rotation
-- **Basic Customer CRM** — create, list, and delete customer records
+- **Basic Customer CRM** — create, list, edit, and delete customer records
 - **User profile management** — update name and change password
 - **Dashboard stats** endpoint — aggregate data from the backend
+- **Consistent error handling** — every API error is an RFC 7807 `ProblemDetail` with field-level validation messages
 - **One-command Docker deploy** — `docker compose up -d --build` starts the entire stack
 - **Nginx-served Angular SPA** with `/api/*` proxy to the Spring Boot backend, gzip compression, and security headers
 - **It compiles successfully, passes standard health checks, and provides a secure starting point.**
@@ -341,15 +342,56 @@ Authorization: Bearer <token>
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|:----:|-------------|
-| `GET` | `/api/customers` | ✅ | List all customers |
-| `POST` | `/api/customers` | ✅ | Create a new customer |
-| `DELETE` | `/api/customers/{id}` | ✅ | Delete a customer by ID |
+| `GET` | `/api/customers` | ✅ | List all customers (ordered by ID) |
+| `POST` | `/api/customers` | ✅ | Create a new customer — `201 Created` + `Location` header |
+| `PUT` | `/api/customers/{id}` | ✅ | Update an existing customer |
+| `DELETE` | `/api/customers/{id}` | ✅ | Delete a customer by ID — `204 No Content` |
+
+**Customer request body** (validated with Bean Validation):
+```json
+{
+  "firstName": "Jeff",
+  "lastName": "Bezos",
+  "email": "jeff@amazon.com",
+  "company": "Amazon",
+  "status": "Active"
+}
+```
+`status` is one of `New`, `Lead`, `Active`, `Inactive` (defaults to `New`). Emails are unique across customers.
 
 ### Dashboard — `/api/dashboard`
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|:----:|-------------|
 | `GET` | `/api/dashboard/stats` | ✅ | Get aggregate stats (total and active customer counts) |
+
+### Error Responses
+
+Every error is returned as [RFC 7807 Problem Details](https://www.rfc-editor.org/rfc/rfc7807) (`application/problem+json`), produced by a single `GlobalExceptionHandler`:
+
+```json
+{
+  "type": "about:blank",
+  "title": "Validation failed",
+  "status": 400,
+  "detail": "One or more fields are invalid",
+  "instance": "/api/customers",
+  "errors": {
+    "email": "Invalid email format",
+    "status": "Status must be one of: New, Lead, Active, Inactive"
+  }
+}
+```
+
+| Status | When |
+|:------:|------|
+| `400` | Validation failed (`errors` lists each invalid field), malformed JSON, wrong current password |
+| `401` | Missing/invalid/expired access token, bad login credentials, invalid refresh token |
+| `404` | Resource does not exist |
+| `409` | Duplicate email (customer or user registration) |
+| `500` | Unexpected error — details are logged server-side, never leaked to the client |
+
+A `401` on a protected endpoint triggers the Angular interceptor to refresh the token and retry the request automatically.
 
 ---
 
@@ -366,13 +408,21 @@ enterprise-saas-starter-core/
 │   │
 │   ├── controller/
 │   │   ├── AuthController.java         # /api/auth/** (register, login, refresh)
-│   │   ├── CustomerController.java     # /api/customers (list, create, delete — calls repository directly)
-│   │   ├── DashboardController.java    # /api/dashboard/stats (calls repository directly)
+│   │   ├── CustomerController.java     # /api/customers (list, create, update, delete)
+│   │   ├── DashboardController.java    # /api/dashboard/stats
 │   │   └── UserController.java         # /api/user/** (profile, password)
 │   │
-│   ├── service/
+│   ├── service/                        # Business logic + transaction boundaries
 │   │   ├── AuthService.java            # Registration, login, JWT refresh logic
+│   │   ├── CustomerService.java        # Customer CRUD, unique email checks, default status
+│   │   ├── DashboardService.java       # Aggregate customer stats
 │   │   └── UserService.java            # Profile & password management
+│   │
+│   ├── exception/
+│   │   ├── GlobalExceptionHandler.java # @RestControllerAdvice → RFC 7807 ProblemDetail for every error
+│   │   ├── ResourceNotFoundException.java   # → 404
+│   │   ├── DuplicateResourceException.java  # → 409
+│   │   └── InvalidTokenException.java       # → 401
 │   │
 │   ├── repository/
 │   │   ├── UserRepository.java
@@ -385,14 +435,18 @@ enterprise-saas-starter-core/
 │   ├── dto/                            # Java Records — validated request/response DTOs
 │   │   ├── LoginRequest.java
 │   │   ├── RegisterRequest.java
+│   │   ├── RefreshTokenRequest.java
 │   │   ├── AuthResponse.java
+│   │   ├── CustomerRequest.java
+│   │   ├── CustomerResponse.java
 │   │   ├── DashboardStats.java
 │   │   ├── UpdateProfileRequest.java
 │   │   └── ChangePasswordRequest.java
 │   │
 │   └── security/
 │       ├── JwtUtils.java               # HS512 token generation, parsing, expiry check
-│       └── JwtAuthenticationFilter.java# Extracts + validates JWT, sets SecurityContext
+│       ├── JwtAuthenticationFilter.java# Extracts + validates JWT, sets SecurityContext
+│       └── ProblemDetailAuthenticationEntryPoint.java # 401 ProblemDetail for unauthenticated requests
 │
 ├── src/main/resources/
 │   ├── application.yml                 # Full configuration (environment-variable driven)
@@ -409,7 +463,7 @@ enterprise-saas-starter-core/
 │   │   │   ├── register/               # Registration form
 │   │   │   ├── dashboard/              # Stats overview page
 │   │   │   ├── customers/              # Customer list + create/delete
-│   │   │   │   └── customer-dialog/    # Add-customer dialog component
+│   │   │   │   └── customer-dialog/    # Add / edit customer dialog component
 │   │   │   └── settings/               # Profile & password management
 │   │   │
 │   │   ├── services/

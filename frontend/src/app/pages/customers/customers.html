@@ -49,7 +49,13 @@
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
 
-          <button mat-icon-button color="warn" (click)="deleteCustomer(element.id)">
+          <button mat-icon-button color="primary" (click)="openEditDialog(element)"
+                  matTooltip="Edit" aria-label="Edit customer">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="deleteCustomer(element.id)"
+                  matTooltip="Remove" aria-label="Remove customer">
             <mat-icon>delete</mat-icon>
           </button>
 

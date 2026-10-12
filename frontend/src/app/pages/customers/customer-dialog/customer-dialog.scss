@@ -3,7 +3,12 @@
   flex-direction: column;
   gap: 10px;
   min-width: 400px;
-  padding-top: 10px;
+}
+
+// Material resets padding-top on content that follows a dialog title, and the content box
+// is a scroll container — without room above, the outlined fields' floating labels get clipped.
+.mat-mdc-dialog-content.dialog-content {
+  padding-top: 12px;
 }
 .row {
   display: flex;

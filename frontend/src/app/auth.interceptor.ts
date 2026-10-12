@@ -4,6 +4,8 @@ import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from './services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  // inject() must run synchronously in the interceptor's injection context, not inside catchError
+  const authService = inject(AuthService);
   const token = localStorage.getItem('token');
 
   const authReq = token
@@ -14,7 +16,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       // Do not attempt refresh if the refresh call itself failed or the request is for auth endpoints
       if (error.status === 401 && !req.url.includes('/auth/')) {
-        const authService = inject(AuthService);
         return authService.refreshTokens().pipe(
           switchMap((newToken: string) => {
             const retried = req.clone({
