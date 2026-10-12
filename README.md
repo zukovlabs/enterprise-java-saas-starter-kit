@@ -79,7 +79,7 @@ The Community Edition gives you a solid foundation. The **PRO version** ships ev
 |-------------------------------------------------------------------------|:---:|:---:|
 | **Java 21 + Spring Boot 3.4.1**                                         | ✅ | ✅ |
 | **Angular 22 Standalone Components**                                    | ✅ | ✅ |
-| **Database + Flyway Migrations**                                        | ✅ PostgreSQL 17 | ✅ MSSQL 2022 |
+| **Database + Flyway Migrations**                                        | ✅ PostgreSQL 17 | ✅ PostgreSQL 17 |
 | **Multi-stage Docker Builds**                                           | ✅ | ✅ |
 | **Nginx SPA Hosting + Security Headers**                                | ✅ | ✅ |
 | **Database Healthcheck (no startup race)**                              | ✅ | ✅ |
