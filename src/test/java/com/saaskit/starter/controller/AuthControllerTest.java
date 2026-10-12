@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saaskit.starter.dto.AuthResponse;
 import com.saaskit.starter.dto.LoginRequest;
 import com.saaskit.starter.dto.RegisterRequest;
+import com.saaskit.starter.exception.DuplicateResourceException;
+import com.saaskit.starter.exception.InvalidTokenException;
 import com.saaskit.starter.service.AuthService;
 import com.saaskit.starter.security.JwtUtils;
 
@@ -14,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
@@ -61,17 +64,31 @@ class AuthControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestWhenEmailExists() throws Exception {
+    void shouldReturnConflictWhenEmailExists() throws Exception {
         RegisterRequest request = new RegisterRequest("existing@example.com", "password123");
 
-        doThrow(new IllegalStateException("Email already exists"))
+        doThrow(new DuplicateResourceException("Email already exists"))
                 .when(authService).register(any(RegisterRequest.class));
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value("Email already exists"));
+    }
+
+    @Test
+    void shouldReturnValidationErrorsWhenRegisterRequestIsInvalid() throws Exception {
+        RegisterRequest request = new RegisterRequest("not-an-email", "123");
+
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Email already exists"));
+                .andExpect(jsonPath("$.errors.email").value("Invalid email format"))
+                .andExpect(jsonPath("$.errors.password").value("Password must be at least 6 characters"));
+
+        verify(authService, never()).register(any());
     }
 
     @Test
@@ -93,14 +110,14 @@ class AuthControllerTest {
     void shouldReturn401OnInvalidCredentials() throws Exception {
         LoginRequest request = new LoginRequest("wrong@example.com", "wrongpass");
 
-        doThrow(new RuntimeException("Invalid email or password"))
+        doThrow(new BadCredentialsException("Bad credentials"))
                 .when(authService).login(any(LoginRequest.class));
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error").value("Invalid email or password"));
+                .andExpect(jsonPath("$.detail").value("Invalid email or password"));
     }
 
     @Test
@@ -119,14 +136,14 @@ class AuthControllerTest {
 
     @Test
     void shouldReturn401WhenRefreshTokenIsInvalid() throws Exception {
-        doThrow(new IllegalArgumentException("Refresh token expired or invalid"))
+        doThrow(new InvalidTokenException("Refresh token expired or invalid"))
                 .when(authService).refresh("expired-token");
 
         mockMvc.perform(post("/api/auth/refresh")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"refreshToken\":\"expired-token\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.error").value("Invalid or expired refresh token"));
+                .andExpect(jsonPath("$.detail").value("Refresh token expired or invalid"));
     }
 
     @Test
@@ -135,6 +152,8 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("refreshToken is required"));
+                .andExpect(jsonPath("$.errors.refreshToken").value("refreshToken is required"));
+
+        verifyNoInteractions(authService);
     }
 }

@@ -3,9 +3,12 @@ package com.saaskit.starter.service;
 import com.saaskit.starter.dto.AuthResponse;
 import com.saaskit.starter.dto.LoginRequest;
 import com.saaskit.starter.dto.RegisterRequest;
+import com.saaskit.starter.exception.DuplicateResourceException;
+import com.saaskit.starter.exception.InvalidTokenException;
 import com.saaskit.starter.model.User;
 import com.saaskit.starter.repository.UserRepository;
 import com.saaskit.starter.security.JwtUtils;
+import io.jsonwebtoken.MalformedJwtException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,7 +67,7 @@ class AuthServiceTest {
         when(userRepository.existsByEmail(request.email())).thenReturn(true);
 
         // Act & Assert
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+        DuplicateResourceException exception = assertThrows(DuplicateResourceException.class, () -> {
             authService.register(request);
         });
 
@@ -139,7 +142,7 @@ class AuthServiceTest {
 
         when(jwtUtils.isRefreshToken(accessToken)).thenReturn(false);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidTokenException exception = assertThrows(InvalidTokenException.class, () -> {
             authService.refresh(accessToken);
         });
 
@@ -156,11 +159,25 @@ class AuthServiceTest {
         when(jwtUtils.extractEmail(expiredToken)).thenReturn(email);
         when(jwtUtils.isTokenValid(expiredToken, email)).thenReturn(false);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidTokenException exception = assertThrows(InvalidTokenException.class, () -> {
             authService.refresh(expiredToken);
         });
 
         assertEquals("Refresh token expired or invalid", exception.getMessage());
         verify(jwtUtils, never()).generateToken(anyString());
+    }
+
+    @Test
+    void shouldWrapJwtParsingFailureIntoInvalidTokenException() {
+        String malformedToken = "malformed-token";
+
+        when(jwtUtils.isRefreshToken(malformedToken)).thenThrow(new MalformedJwtException("bad token"));
+
+        InvalidTokenException exception = assertThrows(InvalidTokenException.class, () -> {
+            authService.refresh(malformedToken);
+        });
+
+        assertEquals("Refresh token expired or invalid", exception.getMessage());
+        verify(userRepository, never()).findByEmail(anyString());
     }
 }

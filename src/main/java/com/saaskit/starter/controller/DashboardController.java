@@ -1,7 +1,7 @@
 package com.saaskit.starter.controller;
 
 import com.saaskit.starter.dto.DashboardStats;
-import com.saaskit.starter.repository.CustomerRepository;
+import com.saaskit.starter.service.DashboardService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/dashboard")
 public class DashboardController {
 
-    private final CustomerRepository customerRepository;
+    private final DashboardService dashboardService;
 
-    public DashboardController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public DashboardController(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/stats")
     public DashboardStats getStats() {
-        long total = customerRepository.count();
-        long active = customerRepository.countByStatus("Active");
-
-        return new DashboardStats(total, active);
+        return dashboardService.getStats();
     }
 }

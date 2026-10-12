@@ -3,9 +3,12 @@ package com.saaskit.starter.service;
 import com.saaskit.starter.dto.AuthResponse;
 import com.saaskit.starter.dto.LoginRequest;
 import com.saaskit.starter.dto.RegisterRequest;
+import com.saaskit.starter.exception.DuplicateResourceException;
+import com.saaskit.starter.exception.InvalidTokenException;
 import com.saaskit.starter.model.User;
 import com.saaskit.starter.repository.UserRepository;
 import com.saaskit.starter.security.JwtUtils;
+import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +35,7 @@ public class AuthService {
 
     public void register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalStateException("Email already exists");
+            throw new DuplicateResourceException("Email already exists");
         }
         User user = new User(
                 request.email(),
@@ -43,15 +46,21 @@ public class AuthService {
     }
 
     public AuthResponse refresh(String refreshToken) {
-        if (!jwtUtils.isRefreshToken(refreshToken)) {
-            throw new IllegalArgumentException("Not a refresh token");
-        }
-        String email = jwtUtils.extractEmail(refreshToken);
-        if (!jwtUtils.isTokenValid(refreshToken, email)) {
-            throw new IllegalArgumentException("Refresh token expired or invalid");
+        String email;
+        try {
+            if (!jwtUtils.isRefreshToken(refreshToken)) {
+                throw new InvalidTokenException("Not a refresh token");
+            }
+            email = jwtUtils.extractEmail(refreshToken);
+            if (!jwtUtils.isTokenValid(refreshToken, email)) {
+                throw new InvalidTokenException("Refresh token expired or invalid");
+            }
+        } catch (JwtException | IllegalArgumentException e) {
+            // Malformed, tampered or expired tokens fail while parsing
+            throw new InvalidTokenException("Refresh token expired or invalid");
         }
         userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new InvalidTokenException("User not found"));
 
         String newAccessToken = jwtUtils.generateToken(email);
         String newRefreshToken = jwtUtils.generateRefreshToken(email);

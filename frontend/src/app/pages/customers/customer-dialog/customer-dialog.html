@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add New Customer</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Customer' : 'Add New Customer' }}</h2>
 
 <mat-dialog-content [formGroup]="form" class="dialog-content">
 
@@ -22,6 +22,15 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Company</mat-label>
     <input matInput formControlName="company">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      @for (status of statuses; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+      }
+    </mat-select>
   </mat-form-field>
 
 </mat-dialog-content>

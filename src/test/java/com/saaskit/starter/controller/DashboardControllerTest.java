@@ -1,7 +1,8 @@
 package com.saaskit.starter.controller;
 
-import com.saaskit.starter.repository.CustomerRepository;
+import com.saaskit.starter.dto.DashboardStats;
 import com.saaskit.starter.security.JwtUtils;
+import com.saaskit.starter.service.DashboardService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class DashboardControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private CustomerRepository customerRepository;
+    private DashboardService dashboardService;
 
     @MockitoBean
     private JwtUtils jwtUtils;
@@ -35,8 +36,7 @@ class DashboardControllerTest {
 
     @Test
     void shouldReturnDashboardStats() throws Exception {
-        when(customerRepository.count()).thenReturn(15L);
-        when(customerRepository.countByStatus("Active")).thenReturn(7L);
+        when(dashboardService.getStats()).thenReturn(new DashboardStats(15L, 7L));
 
         mockMvc.perform(get("/api/dashboard/stats")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -44,7 +44,6 @@ class DashboardControllerTest {
                 .andExpect(jsonPath("$.totalCustomers").value(15))
                 .andExpect(jsonPath("$.activeCustomers").value(7));
 
-        verify(customerRepository, times(1)).count();
-        verify(customerRepository, times(1)).countByStatus("Active");
+        verify(dashboardService, times(1)).getStats();
     }
 }
