@@ -1,6 +1,6 @@
 # Enterprise SaaS Starter — Community Edition
 
-![Version](https://img.shields.io/badge/version-1.0.0--community-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.0--community-blue.svg)
 ![Java](https://img.shields.io/badge/Java-21-orange.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-green.svg)
 ![Angular](https://img.shields.io/badge/Angular-22-red.svg)
